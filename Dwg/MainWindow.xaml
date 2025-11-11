@@ -1,0 +1,143 @@
+﻿<Window x:Class="Dwg.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Music Player Mini" Height="600" Width="420"
+        WindowStartupLocation="CenterScreen"
+        Background="#FFF5F5F5"
+        FontFamily="Segoe UI">
+
+    <Grid Margin="15">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Tiêu đề -->
+        <TextBlock Grid.Row="0" 
+                   Text="My Music Player" 
+                   FontSize="24" 
+                   FontWeight="SemiBold" 
+                   HorizontalAlignment="Center" 
+                   Foreground="#FF6200EE"
+                   Margin="0,0,0,10"/>
+
+        <!-- Thanh tìm kiếm (tùy chọn) -->
+        <materialDesign:Card Grid.Row="1" Padding="8" Margin="0,0,0,10" Background="White">
+            <TextBox x:Name="SearchBox" 
+                     materialDesign:HintAssist.Hint="Tìm bài hát..." 
+                     FontSize="14"/>
+        </materialDesign:Card>
+
+        <!-- Danh sách nhạc -->
+        <materialDesign:Card Grid.Row="2" Padding="10" Background="White" UniformCornerRadius="12">
+            <ScrollViewer VerticalScrollBarVisibility="Auto">
+                <ListBox x:Name="PlaylistBox" 
+                         SelectionChanged="PlaylistBox_SelectionChanged"
+                         BorderThickness="0">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Margin="5,8">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <TextBlock Grid.Column="0" 
+                                           Text="{Binding}" 
+                                           FontSize="14" 
+                                           VerticalAlignment="Center"/>
+                                <Button Grid.Column="1" 
+                                        Content="X" 
+                                        Width="24" Height="24" 
+                                        FontSize="12"
+                                        Padding="0"
+                                        materialDesign:ButtonAssist.CornerRadius="12"
+                                        Background="#FFEB3B" Foreground="White"
+                                        Click="RemoveSong_Click"
+                                        Tag="{Binding}"/>
+                            </Grid>
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </ScrollViewer>
+        </materialDesign:Card>
+
+        <!-- Thông tin bài hát -->
+        <StackPanel Grid.Row="3" Margin="0,15,0,10" HorizontalAlignment="Center">
+            <TextBlock x:Name="SongTitle" 
+                       Text="Chọn một bài hát" 
+                       FontSize="16" 
+                       FontWeight="Medium" 
+                       HorizontalAlignment="Center"
+                       Foreground="#FF424242"/>
+            <TextBlock x:Name="TimeLabel" 
+                       Text="00:00 / 00:00" 
+                       FontSize="13" 
+                       Foreground="#FF757575"
+                       HorizontalAlignment="Center"/>
+        </StackPanel>
+
+        <!-- Thanh tiến trình -->
+        <ProgressBar x:Name="ProgressBar" 
+                     Grid.Row="3" 
+                     Height="6" 
+                     Margin="0,50,0,0"
+                     Value="0" 
+                     Foreground="#FF6200EE"
+                     Background="#FFE0E0E0"
+                     BorderThickness="0"/>
+
+        <!-- Nút điều khiển -->
+        <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,15,0,0">
+            <Button x:Name="OpenBtn" Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                ToolTip="Mở file" Margin="8" Click="OpenBtn_Click">
+                <materialDesign:PackIcon Kind="FolderOpen" />
+            </Button>
+
+            <Button x:Name="PrevBtn" Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                ToolTip="Bài trước" Margin="8" Click="PrevBtn_Click">
+                <materialDesign:PackIcon Kind="SkipPrevious" />
+            </Button>
+
+            <Button x:Name="PlayBtn" Style="{StaticResource MaterialDesignFloatingActionButton}"
+                Width="64" Height="64" Margin="16" Click="PlayBtn_Click">
+                <materialDesign:PackIcon x:Name="PlayIcon" Kind="Play" Width="32" Height="32"/>
+            </Button>
+
+            <Button x:Name="NextBtn" Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                ToolTip="Bài tiếp" Margin="8" Click="NextBtn_Click">
+                <materialDesign:PackIcon Kind="SkipNext" />
+            </Button>
+
+            <Button x:Name="StopBtn" Style="{StaticResource MaterialDesignFloatingActionMiniButton}"
+                ToolTip="Dừng" Margin="8" Click="StopBtn_Click">
+                <materialDesign:PackIcon Kind="Stop" />
+            </Button>
+        </StackPanel>
+
+        <!-- Slider âm lượng -->
+        <!-- Slider âm lượng -->
+        <StackPanel Grid.Row="4"
+            Orientation="Horizontal"
+            HorizontalAlignment="Left"
+            VerticalAlignment="Top"
+            Margin="0,0,10,10">
+            <materialDesign:PackIcon Kind="VolumeHigh"
+                             Margin="0,0,10,0"
+                             Foreground="#FF757575"
+                             VerticalAlignment="Center"/>
+            <Slider x:Name="VolumeSlider"
+            Width="100"
+            Minimum="0" Maximum="100"
+            Value="70"
+            VerticalAlignment="Center"
+            Margin="0,0,0,2"
+            ValueChanged="VolumeSlider_ValueChanged"/>
+        </StackPanel>
+
+    </Grid>
+
+</Window>
